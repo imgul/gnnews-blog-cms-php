@@ -31,20 +31,20 @@ if ((isset($_POST['registerSubmit'])) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
         $alert_error = "Please fill all the required fields.";
     } else {
         $existUser = false;
-        $queryExistUser = "SELECT * FROM `users` WHERE `user_username` = '$username' OR `user_email` = '$email';";
+        $queryExistUser = "SELECT * FROM `users` WHERE `username` = '$username' OR `email` = '$email';";
         $resultExistUser = mysqli_query($conn, $queryExistUser);
         $rowExistUser = mysqli_fetch_array($resultExistUser);
         if ($rowExistUser > 1) {
             $existUser = true;
         }
         if ($existUser) {
-            if ($username == $rowExistUser['user_username']) {
+            if ($username == $rowExistUser['username']) {
                 $alert_error = "Username already exists. Try with different one.";
             }
             // else {
             //     $alert_error = "Email already registered. You can <a href='login.php'>Login Here</a>.";
             // }
-            if ($email == $rowExistUser['user_email']) {
+            if ($email == $rowExistUser['email']) {
                 $alert_error = "Email already registered. You can <a href='login.php'>Login Here</a>.";
             }
         } else {
@@ -52,7 +52,7 @@ if ((isset($_POST['registerSubmit'])) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
                 $alert_error = "Passwords do not match.";
             } else {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $query = "INSERT INTO `users` (`user_id`, `user_username`, `user_fname`, `user_lname`, `user_email`, `user_password`) VALUES (NULL, '$username', '$firstname', '$lastname', '$email', '$hashed_password');";
+                $query = "INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES (NULL, '$username', '$firstname', '$lastname', '$email', '$hashed_password');";
                 $result = mysqli_query($conn, $query);
                 // $alert_info = $firstname . $lastname . $username . $email . $password . $confirmPassword . $hashed_password;
                 if (!$result) {

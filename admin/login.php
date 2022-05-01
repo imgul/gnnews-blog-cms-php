@@ -27,16 +27,16 @@ if ((isset($_POST['loginSubmit'])) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
     if (empty($username) || empty($password)) {
         $alert_error = "Please fill all the required fields.";
     } else {
-        $query = "SELECT * FROM `users` WHERE `user_username` = '$username' OR `user_email` = '$username';";
+        $query = "SELECT * FROM `users` WHERE `username` = '$username' OR `email` = '$username';";
         $result = mysqli_query($conn, $query);
         $row = mysqli_fetch_assoc($result);
         if ($row < 1) {
             $alert_error = "User not found. <a href='register.php'>Register with this username</a>.";
-        } elseif (password_verify($password, $row['user_password'])) {
+        } elseif (password_verify($password, $row['password'])) {
             session_start();
-            $_SESSION['user_id'] = $row['user_id'];
-            $_SESSION['user_role'] = $row['user_role'];
-            // $alert_success = "Welcome " . $_SESSION['user_fname'] . " " . $_SESSION['user_lname'] . " " . $_SESSION['user_id'] . " You are loggedin successfully.";
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['user_role'] = $row['role'];
+            // $alert_success = "Welcome " . $_SESSION['fname'] . " " . $_SESSION['lname'] . " " . $_SESSION['id'] . " You are loggedin successfully.";
             header('location: index.php');
         } else {
             $alert_error = "Invalid password. <a href='forget_password.php'>Reset Your Password.</a>";

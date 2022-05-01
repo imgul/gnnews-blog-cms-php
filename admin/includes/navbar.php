@@ -1,6 +1,6 @@
 <?php
 
-$queryFetchUser = "SELECT * FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "'";
+$queryFetchUser = "SELECT * FROM `users` WHERE `id` = '" . $_SESSION['user_id'] . "'";
 $resultFetchUser = mysqli_query($conn, $queryFetchUser);
 $rowFetchUser = mysqli_fetch_assoc($resultFetchUser);
 
@@ -97,10 +97,10 @@ $rowFetchUser = mysqli_fetch_assoc($resultFetchUser);
                 </div>
             </li>
             <!-- User Profile -->
-            <?php echo '<li class="nav-item dropdown ms-auto"><a class="nav-link pe-0" id="userInfo" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar p-1" src="dist/img/user/' . $rowFetchUser['user_img'] . '" alt="' . $rowFetchUser['user_fname'] . ' ' . $rowFetchUser['user_lname'] . '"></a>
+            <?php echo '<li class="nav-item dropdown ms-auto"><a class="nav-link pe-0" id="userInfo" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar p-1" src="dist/img/user/' . $rowFetchUser['profile_pic'] . '" alt="' . $rowFetchUser['first_name'] . ' ' . $rowFetchUser['last_name'] . '"></a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated" aria-labelledby="userInfo">
                     <div class="dropdown-header text-gray-700">
-                        <h6 class="text-uppercase font-weight-bold">' . $rowFetchUser['user_fname'] . ' ' . $rowFetchUser['user_lname'] . '</h6><small class="text-capitalize">' . $rowFetchUser['user_role'] . '</small>
+                        <h6 class="text-uppercase font-weight-bold">' . $rowFetchUser['first_name'] . ' ' . $rowFetchUser['last_name'] . '</h6><small class="text-capitalize">' . $rowFetchUser['role'] . '</small>
                     </div>
                     <div class="dropdown-divider"></div><a class="dropdown-item" href="users-profile.php">Settings</a><a class="dropdown-item" href="#">Activity log </a>
                     <div class="dropdown-divider"></div><a class="dropdown-item" href="logout.php">Logout</a>
