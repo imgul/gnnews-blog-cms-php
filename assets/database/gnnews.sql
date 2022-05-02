@@ -27,6 +27,7 @@ CREATE DATABASE IF NOT EXISTS gnnews;
 -- | last_name   | varchar(30)      | NO   |     | NULL             |                |
 -- | password    | varchar(256)     | NO   |     | NULL             |                |
 -- | role        | varchar(30)      | NO   |     | subscriber       |                |
+-- | about       | varchar(255)     | NO   |     | Default About    |                |
 -- | profile_pic | varchar(255)     | NO   |     | subscriber.png   |                |
 -- | created_at  | timestamp        | NO   |     | current_timestamp|                |
 -- | updated_at  | timestamp        | NO   |     | current_timestamp|                |
@@ -41,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `gnnews`.`users` (
   `last_name` VARCHAR(30) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
   `role` VARCHAR(30) NOT NULL DEFAULT 'subscriber',
+  `about` VARCHAR(30) NOT NULL DEFAULT 'Hi, I am a GN News Team Member. I hope you will like me and my participation. Thanks and Regards',
   `profile_pic` VARCHAR(50) NOT NULL DEFAULT 'subscriber.png',
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,

@@ -1,12 +1,214 @@
 </head>
 </body>
-
 <?php
 session_start();
 include '../includes/config.php';
+
+
+// Upload Image to Server and Database
+// if (isset($_POST['update_user'])) {
+
+// }
+
+
+// // Upload Image 2
+// $target_dir = "uploads/";
+// $target_file = $target_dir . basename($_FILES["profileImg__input"]["name"]);
+// $uploadOk = 1;
+// $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+// // Check if image file is a actual image or fake image
+// if (isset($_POST["submit"])) {
+//     $check = getimagesize($_FILES["profileImg__input"]["tmp_name"]);
+//     if ($check !== false) {
+//         echo "File is an image - " . $check["mime"] . ".";
+//         $uploadOk = 1;
+//     } else {
+//         echo "File is not an image.";
+//         $uploadOk = 0;
+//     }
+// }
+
+// // Check if file already exists
+// if (file_exists($target_file)) {
+//     echo "Sorry, file already exists.";
+//     $uploadOk = 0;
+// }
+
+// // Check file size
+// if ($_FILES["profileImg__input"]["size"] > 500000) {
+//     echo "Sorry, your file is too large.";
+//     $uploadOk = 0;
+// }
+
+// // Allow certain file formats
+// if (
+//     $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+//     && $imageFileType != "gif"
+// ) {
+//     echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+//     $uploadOk = 0;
+// }
+
+// // Check if $uploadOk is set to 0 by an error
+// if ($uploadOk == 0) {
+//     echo "Sorry, your file was not uploaded.";
+//     // if everything is ok, try to upload file
+// } else {
+//     if (move_uploaded_file($_FILES["profileImg__input"]["tmp_name"], $target_file)) {
+//         echo "The file " . htmlspecialchars(basename($_FILES["profileImg__input"]["name"])) . " has been uploaded.";
+//     } else {
+//         echo "Sorry, there was an error uploading your file.";
+//     }
+// }
+
+// Form Validation
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if ((isset($_POST['update_user'])) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+    // Upload Image to Server and Database
+    $target_dir = "../uploads/images/users/";
+    $target_file = $target_dir . basename($_FILES["profileImg"]["name"]);
+    // $uploadOk = 1;
+    // $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    // Check if image file is a actual image or fake image
+    // if (isset($_POST["update_user"])) {
+    //     $check = getimagesize($_FILES["profileImg"]["tmp_name"]);
+    //     if ($check !== false) {
+    //         $uploadOk = 1;
+    //     } else {
+    //         $uploadOk = 0;
+    //     }
+    // }
+    // Check if file already exists
+    // if (file_exists($target_file)) {
+    //     $uploadOk = 0;
+    // }
+    // Check file size
+    // if ($_FILES["profileImg"]["size"] > 2000000) {
+    //     $uploadOk = 0;
+    // }
+    // Allow certain file formats
+    // if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+    //     $uploadOk = 0;
+    // }
+    // Check if $uploadOk is set to 0 by an error
+    // if ($uploadOk == 0) {
+    //     $alert_error = "Sorry, your file was not uploaded.";
+    //     // if everything is ok, try to upload file
+    // } else {
+    move_uploaded_file($_FILES["profileImg"]["tmp_name"], $target_file);
+    // if ($uploadImage) {
+    //     $alert_success = "The file " . basename($_FILES["profileImg"]["name"]) . " has been uploaded.";
+    // } else {
+    //     $alert_error = "Sorry, there was an error uploading your file.";
+    // }
+    // }
+
+
+    //     $up_first_name = test_input($_POST['first_name']);
+    //     $up_last_name = test_input($_POST['last_name']);
+    //     $up_username = test_input($_POST['username']);
+    //     $up_email = test_input($_POST['email']);
+    //     $up_about = test_input($_POST['about']);
+    //     // $password = test_input($_POST['password']);
+    //     // $confirmPassword = test_input($_POST['confirmPassword']);
+    //     // $alert_info = $firstname . $lastname . $username . $email . $password . $confirmPassword;
+
+    //     $user_id = $_SESSION['user_id'];
+    //     if (empty($up_first_name) || empty($up_last_name) || empty($up_username) || empty($up_email)) {
+    //         $alert_error = "Please fill all the required fields.";
+    //     } else {
+    //         $existUser = false;
+    //         $queryExistUser = "SELECT `users`.`username`, `users`.`email` FROM `users` WHERE `username` IN ('gulzaib') AND `email` IN ('zaibg0375@gmail.com') AND `id` NOT IN ('$user_id');";
+    //         $resultExistUser = mysqli_query($conn, $queryExistUser);
+    //         $rowExistUser = mysqli_fetch_array($resultExistUser);
+    //         if ($rowExistUser > 1) {
+    //             $existUser = true;
+    //         }
+    //         if ($existUser) {
+    //             if ($up_username == $rowExistUser['username']) {
+    //                 $alert_error = "Username already exists. Try with different one.";
+    //             }
+    //             if ($up_email == $rowExistUser['email']) {
+    //                 $alert_error = "Email already registered. You can <a href='login.php'>Login Here</a>.";
+    //             }
+    //         } else {
+    //             // if ($password != $confirmPassword) {
+    //             //     $alert_error = "Passwords do not match.";
+    //             // } else {
+    //             // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    //             // $queryUpdate = "INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES (NULL, '$username', '$firstname', '$lastname', '$email', '$hashed_password');";
+    //             $queryUpdate = "UPDATE `users` SET `username` = '$up_username', `first_name` = '$up_first_name', `last_name` = '$up_last_name', `email` = '$up_email', `about` = '$up_about', `profile_pic` = '$target_file' WHERE `users`.`id` = '$user_id';";
+    //             $resultUpdate = mysqli_query($conn, $queryUpdate);
+    //             // $alert_info = $firstname . $lastname . $username . $email . $password . $confirmPassword . $hashed_password;
+    //             if (!$resultUpdate) {
+    //                 die($alert_error = "Query Failed due to " . mysqli_error($conn));
+    //             } else {
+    //                 // header("Location: login.php");
+    //                 $alert_success = "Great " . $up_first_name . " " . $up_last_name . " Your account has been updated successfully!";
+    //             }
+    //             // }
+    //         }
+    //     }
+}
+
+
 include 'includes/header.php';
 include 'includes/navbar.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('location: login.php');
+} else {
+    $user_id = $_SESSION['user_id'];
+    // Get user details
+    $sql = "SELECT * FROM `users` WHERE `id` = '$user_id'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $username = $row['username'];
+    $email = $row['email'];
+    $first_name = $row['first_name'];
+    $last_name = $row['last_name'];
+    $profile_pic = $row['profile_pic'];
+    $role = $row['role'];
+    $about = $row['about'];
+    $status = $row['status'];
+    $created_at = $row['created_at'];
+    $updated_at = $row['updated_at'];
+}
 ?>
+
+<style>
+    #profileImg__label {
+        position: relative;
+        width: 7rem;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+    }
+
+    #profileImg__overlay {
+        position: absolute;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 100%;
+        padding: 4px 8px;
+    }
+
+    #profileImg__img {
+        transition: .5 ease;
+    }
+
+    #profileImg__label:hover #profileImg__img {
+        opacity: 0.7;
+    }
+</style>
 
 <div class="d-flex align-items-stretch">
     <!-- Start Sidebar -->
@@ -27,304 +229,61 @@ include 'includes/navbar.php';
             </div>
             <section>
                 <div class="row">
-                    <div class="col-lg-4">
-                        <!-- Card Info Follow -->
-                        <!-- <div class="card card-profile mb-4">
-                            <div class="card-header" style="background-image: url(dist/img/photos/paul-morris-116514-unsplash.jpg);">
-                            </div>
-                            <div class="card-body text-center"><img class="card-profile-img" src="dist/img/avatar-7.jpg" alt="Nathan Andrews">
-                                <h3 class="mb-3">Nathan Andrews</h3>
-                                <p class="mb-4">One morning, when Gregor Samsa woke from troubled </p>
-                                <button class="btn btn-outline-dark btn-sm"><span class="fab fa-twitter"></span>
-                                    Follow</button>
-                            </div>
-                        </div> -->
-                        <!-- Profile Social Icons Card -->
-                        <!-- <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="dist/img/avatar-7.jpg" alt="Nathan Andrews"></div>
-                                    <div class="flex-grow-1 ps-3">
-                                        <h4>Nathan Andrews</h4>
-                                        <p class="text-muted mb-0">Coder</p>
-                                        <ul class="social-links list-inline mb-0 mt-2">
-                                            <li class="list-inline-item"><a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="Nathan's Facebook"><i class="fab fa-facebook"></i></a>
-                                            </li>
-                                            <li class="list-inline-item"><a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="@nathan_andrews"><i class="fab fa-twitter"></i></a></li>
-                                            <li class="list-inline-item"><a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="+420777555987"><i class="fa fa-phone"></i></a></li>
-                                            <li class="list-inline-item"><a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="@nathan"><i class="fab fa-skype"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- My Profile -->
-                        <form class="card mb-4">
-                            <div class="card-header">
-                                <h4 class="card-heading">My Profile</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row mb-3">
-                                    <div class="col-auto d-flex align-items-center"><img class="avatar avatar-lg p-1" src="dist/img/avatar-7.jpg" alt="Avatar">
-                                    </div>
-                                    <div class="col">
-                                        <h4 class="mt-3">Gul Zaib</h4>
-                                        <p>@gulzaib</p>
-                                        <!-- <label class="form-label">Name</label>
-                                        <input class="form-control" placeholder="Your name"> -->
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Bio</label>
-                                    <p>The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream.</p>
-                                    <!-- <textarea class="form-control" rows="8">The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. &quot;What's happened to me?&quot; he thought. It wasn't a dream.</textarea> -->
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <p>zaibg0375@gmail.com</p>
-                                    <!-- <input class="form-control" placeholder="you@domain.com"> -->
-                                </div>
-                                <!-- <label class="form-label">Password</label>
-                                <input class="form-control" type="password" value="password"> -->
-                            </div>
-                            <!-- <div class="card-footer text-end">
-                                <button class="btn btn-primary">Save</button>
-                            </div> -->
-                        </form>
-                    </div>
-                    <div class="col-lg-8">
-                        <!-- <div class="card overflow-hidden mb-4">
-                            <div class="card-header">
-                                <div class="input-group">
-                                    <input class="form-control" type="text" placeholder="Message">
-                                    <button class="btn btn-outline-secondary" type="button"><i class="fa fa-paper-plane"></i></button>
-                                </div>
-                            </div>
-                            <div class="list-group rounded-0">
-                                <div class="list-group-item border-start-0 border-end-0 py-5 border-top-0">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="dist/img/avatar-7.jpg" alt="Nathan Andrews"></div>
-                                        <div class="flex-grow-1 ps-3"><small class="float-right">10 mins ago</small>
-                                            <h5 class="fw-bold">Nathan Andrews</h5>
-                                            <div class="text-muted text-sm"> One morning, when Gregor Samsa woke
-                                                from troubled dreams, he found himself transformed in his bed into a
-                                                horrible vermin. He lay on his armour-like back, and if he lifted
-                                                his head a little he could see his brown belly, slightly domed and
-                                                divided by arches into stiff sections</div>
-                                            <div class="d-flex mt-4">
-                                                <div class="flex-shrink-0"><img class="avatar avatar-md p-1" src="dist/img/avatar-3.jpg" alt="Serenity Mitchelle"></div>
-                                                <div class="flex-grow-1 ps-3 text-sm text-muted"><strong class="text-dark">Serenity Mitchelle: </strong>The bedding
-                                                    was hardly able to cover it and seemed ready to slide off any
-                                                    moment. His many legs, pitifully thin compared with the size of
-                                                    the rest of him, waved about helplessly as he looked.
-                                                    &quot;What's happened to me?&quot; he thought. It wasn't a
-                                                    dream.</div>
-                                            </div>
-                                            <div class="d-flex mt-4">
-                                                <div class="flex-shrink-0"><img class="avatar avatar-md p-1" src="dist/img/avatar-1.jpg" alt="Tony O'Brian"></div>
-                                                <div class="flex-grow-1 ps-3 text-sm text-muted"><strong class="text-dark">Tony O'Brian: </strong>His room, a proper
-                                                    human room although a little too small, lay peacefully between
-                                                    its four familiar walls. A collection of textile samples lay
-                                                    spread out on the table.</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-group-item border-start-0 border-end-0 py-5">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="dist/img/avatar-7.jpg" alt="Nathan Andrews"></div>
-                                        <div class="flex-grow-1 ps-3"><small class="float-right">12 mins ago</small>
-                                            <h5 class="fw-bold">Nathan Andrews</h5>
-                                            <div class="text-muted text-sm"> Samsa was a travelling salesman - and
-                                                above it there hung a picture that he had recently cut out of an
-                                                illustrated magazine and housed in a nice, gilded frame.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-group-item border-start-0 border-end-0 py-5">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="dist/img/avatar-7.jpg" alt="Nathan Andrews"></div>
-                                        <div class="flex-grow-1 ps-3"><small class="float-right">34 mins ago</small>
-                                            <h5 class="fw-bold">Nathan Andrews</h5>
-                                            <div class="text-muted text-sm"> He must have tried it a hundred times,
-                                                shut his eyes so that he wouldn't have to look at the floundering
-                                                legs, and only stopped when he began to feel a mild, dull pain there
-                                                that he had never felt before.</div>
-                                            <div class="d-flex mt-4">
-                                                <div class="flex-shrink-0"><img class="avatar avatar-md p-1" src="dist/img/avatar-6.jpg" alt="Javier Gregory"></div>
-                                                <div class="flex-grow-1 ps-3 text-sm text-muted"><strong class="text-dark">Javier Gregory: </strong>One morning, when
-                                                    Gregor Samsa woke from troubled dreams, he found himself
-                                                    transformed in his bed into a horrible vermin. He lay on his
-                                                    armour-like back, and if he lifted his head a little he could
-                                                    see his brown belly, slightly domed and divided by arches into
-                                                    stiff sections</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!--  Register Form -->
-                        <!-- <div class="card-body p-lg-5">
-                            <h3 class="mb-4">Get started with GN News</h3>
-                            <p class="text-muted text-sm mb-5">GN News provides you the great attention and honor. Become a member now and enjoy the fame.</p>
-                            <form class="needs-validation" novalidate="" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
-                                <div class="row">
-                                    <div class="form-floating mb-3 col-md-6 has-required">
-                                        <input name="fname" class="form-control" value="<?php echo $firstname; ?>" id="fname" type="text" placeholder="John" minlength="2" maxlength="15" required>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please enter your first name(2-15 Characters).</div>
-                                        <label for="fname">First Name</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-md-6">
-                                        <input name="lname" class="form-control" value="<?php echo $lastname; ?>" id="lname" type="text" placeholder="Doe" minlength="2" maxlength="15" required>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please enter your last name(2-15 Characters).</div>
-                                        <label for="lname">Last Name</label>
-                                    </div>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="username" class="form-control" value="<?php echo $username; ?>" id="username" type="text" placeholder="johndoe" minlength="3" maxlength="20" required>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please enter your username(3-20 Characters).</div>
-                                    <label for="username">Username</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="email" class="form-control" value="<?php echo $email; ?>" id="floatingInput" type="email" placeholder="name@example.com" required>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please enter your valid email.</div>
-                                    <label for="floatingInput">Email address</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="password" class="form-control" value="<?php echo $password; ?>" id="floatingPassword" type="password" placeholder="Password" minlength="8" maxlength="30" required>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please enter your Password(8-30 Characters).</div>
-                                    <label for="floatingPassword">Password</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="confirmPassword" class="form-control" value="<?php echo $confirmPassword; ?>" id="floatingConfirmPassword" type="password" placeholder="Confirm Password" minlength="8" maxlength="30" required>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please confirm password.</div>
-                                    <label for="floatingConfirmPassword">Confirm Password</label>
-                                </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
-                                    <label class="form-check-label" for="agree">I agree with the <a href="#">Terms &
-                                            Conditions</a>.</label>
-                                    <div class="invalid-feedback">You must agree before submitting.</div>
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-primary" id="register" type="submit" name="registerSubmit">Register</button>
-                                </div>
-                            </form>
-                        </div> -->
-                        <form class="card mb-4">
+                    <div class="col-lg-12">
+                        <form class="card mb-4 needs-validation" novalidate="" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data">
                             <div class="card-header">
                                 <h4 class="card-heading">Edit Profile</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <style>
-                                            #profileImg__label {
-                                                position: relative;
-                                                width: 7rem;
-                                                aspect-ratio: 1/1;
-                                                border-radius: 50%;
-                                            }
-
-                                            #profileImg__overlay {
-                                                position: absolute;
-                                                bottom: 0;
-                                                background-color: rgba(0, 0, 0, 0.8);
-                                                width: 100%;
-                                                padding: 4px 8px;
-                                            }
-
-                                            #profileImg__img {
-                                                transition: .5 ease;
-                                            }
-
-                                            #profileImg__label:hover #profileImg__img {
-                                                opacity: 0.7;
-                                            }
-
-                                            /* #profileImg__img,
-                                            #profileImg__overlay {
-                                                position: absolute;
-                                                top: 0;
-                                                left: 0;
-                                            } */
-                                        </style>
                                         <div class="mb-4" for="profileImg">
                                             <label for="profileImg__input" id="profileImg__label">
-                                                <img class="w-100 h-100" id="profileImg__img" src="dist/img/avatar-7.jpg" alt="Avatar">
+                                                <img class="w-100 h-100" id="profileImg__img" src="dist/img/user/<?php echo $profile_pic; ?>" alt="Avatar">
                                                 <div id="profileImg__overlay">Select Image</div>
                                             </label>
-                                            <input class="d-none" type="file" accept="image/*" name="profileImg" id="profileImg__input" oninput="profileImg__img.src=window.URL.createObjectURL(this.files[0])">
+                                            <input class="d-block" type="file" accept="image/*" name="profileImg" id="profileImg__input" oninput="profileImg__img.src=window.URL.createObjectURL(this.files[0])">
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="mb-4">
-                                            <label class="form-label">Username</label>
-                                            <input class="form-control" type="text" placeholder="Username" value="nathan">
+                                            <label for="username" class="form-label">Username</label>
+                                            <input name="username" id="username" class="form-control" type="text" placeholder="Username" value="<?php echo $username; ?>" minlength="3" maxlength="20" required>
+                                            <div class="invalid-feedback">Please enter username(3-20 Characters).</div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="mb-4">
-                                            <label class="form-label">Email address</label>
-                                            <input class="form-control" type="email" placeholder="Email">
+                                            <label for="email" class="form-label">Email address</label>
+                                            <input name="email" id="email" class="form-control" type="email" placeholder="Email" value="<?php echo $email; ?>" required>
+                                            <div class="invalid-feedback">Please enter your valid email.</div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="mb-4">
-                                            <label class="form-label">First Name</label>
-                                            <input class="form-control" type="text" placeholder="First name">
+                                            <label for="first_name" class="form-label">First Name</label>
+                                            <input name="first_name" id="first_name" class="form-control" type="text" placeholder="First name" value="<?php echo $first_name; ?>" minlength="1" maxlength="15" required>
+                                            <div class="invalid-feedback">Please enter your first name(1-15 Characters).</div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="mb-4">
-                                            <label class="form-label">Last Name</label>
-                                            <input class="form-control" type="text" placeholder="Last Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="mb-4">
-                                            <label class="form-label">Address</label>
-                                            <input class="form-control" type="text" placeholder="Home Address">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">City</label>
-                                            <input class="form-control" type="text" placeholder="City">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3">
-                                        <div class="mb-4">
-                                            <label class="form-label">ZIP</label>
-                                            <input class="form-control" type="number" placeholder="ZIP">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="mb-4">
-                                            <label class="form-label">Country</label>
-                                            <select class="form-control custom-select">
-                                                <option value="">UK</option>
-                                                <option value="">US</option>
-                                            </select>
+                                            <label for="last_name" class="form-label">Last Name</label>
+                                            <input name="last_name" id="last_name" class="form-control" type="text" placeholder="Last Name" value="<?php echo $last_name; ?>" minlength="1" maxlength="15" required>
+                                            <div class="invalid-feedback">Please enter your last name(1-15 Characters).</div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-0">
-                                            <label class="form-label">About Me</label>
-                                            <textarea class="form-control" rows="5" placeholder="Here can be your description">The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. &quot;What's happened to me?&quot; he thought. It wasn't a dream.</textarea>
+                                            <label for="about" class="form-label">About Me</label>
+                                            <textarea name="about" id="about" class="form-control" rows="5" placeholder="Here can be your description" minlength="50" maxlength="225" required><?php echo $about; ?></textarea>
+                                            <div class="invalid-feedback">Please enter about yourself(50-255 Characters).</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer text-end">
-                                <button class="btn btn-primary" type="submit">Update Profile</button>
+                                <button name="update_user" class="btn btn-primary" type="submit">Update Profile</button>
                             </div>
                         </form>
                     </div>

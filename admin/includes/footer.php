@@ -105,6 +105,7 @@ switch ($page_name) {
         echo '<!-- JavaScript files-->
         <script src="dist/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script src="dist/js/forms-validation.js"></script>
         <!-- Dropzone.JS-->
         <script src="dist/vendor/dropzone/dropzone.js"></script>
         <!-- User Profile JS-->

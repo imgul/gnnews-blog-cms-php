@@ -92,15 +92,15 @@ include 'includes/header.php';
                         <form class="needs-validation" novalidate="" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
                             <div class="row">
                                 <div class="form-floating mb-3 col-md-6 has-required">
-                                    <input name="fname" class="form-control" value="<?php echo $firstname; ?>" id="fname" type="text" placeholder="John" minlength="2" maxlength="15" required>
+                                    <input name="fname" class="form-control" value="<?php echo $firstname; ?>" id="fname" type="text" placeholder="John" minlength="1" maxlength="15" required>
                                     <!-- <div class="valid-feedback">Looks good!</div> -->
-                                    <div class="invalid-feedback">Please enter your first name(2-15 Characters).</div>
+                                    <div class="invalid-feedback">Please enter your first name(1-15 Characters).</div>
                                     <label for="fname">First Name</label>
                                 </div>
                                 <div class="form-floating mb-3 col-md-6">
-                                    <input name="lname" class="form-control" value="<?php echo $lastname; ?>" id="lname" type="text" placeholder="Doe" minlength="2" maxlength="15" required>
+                                    <input name="lname" class="form-control" value="<?php echo $lastname; ?>" id="lname" type="text" placeholder="Doe" minlength="1" maxlength="15" required>
                                     <!-- <div class="valid-feedback">Looks good!</div> -->
-                                    <div class="invalid-feedback">Please enter your last name(2-15 Characters).</div>
+                                    <div class="invalid-feedback">Please enter your last name(1-15 Characters).</div>
                                     <label for="lname">Last Name</label>
                                 </div>
                             </div>
