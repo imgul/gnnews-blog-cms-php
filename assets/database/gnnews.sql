@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `gnnews`.`users` (
   `last_name` VARCHAR(30) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
   `role` VARCHAR(30) NOT NULL DEFAULT 'subscriber',
-  `about` VARCHAR(30) NOT NULL DEFAULT 'Hi, I am a GN News Team Member. I hope you will like me and my participation. Thanks and Regards',
+  `about` VARCHAR(300) NOT NULL DEFAULT 'Hi, I am a GN News Team Member. I hope you will like me and my participation. Thanks and Regards',
   `profile_pic` VARCHAR(50) NOT NULL DEFAULT 'subscriber.png',
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,

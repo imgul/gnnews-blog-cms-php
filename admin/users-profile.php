@@ -73,90 +73,94 @@ function test_input($data)
 
 if ((isset($_POST['update_user'])) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
     // Upload Image to Server and Database
+    // Date Time for Images Prefix
+    $date = date('Ymd');
+    $time = date('His');
+    $date_time = $date . "-" . $time;
+
     $target_dir = "../uploads/images/users/";
-    $target_file = $target_dir . basename($_FILES["profileImg"]["name"]);
-    // $uploadOk = 1;
-    // $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $target_file = "IMG-" . $date_time . "-" . basename($_FILES["profileImg"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     // Check if image file is a actual image or fake image
-    // if (isset($_POST["update_user"])) {
-    //     $check = getimagesize($_FILES["profileImg"]["tmp_name"]);
-    //     if ($check !== false) {
-    //         $uploadOk = 1;
-    //     } else {
-    //         $uploadOk = 0;
-    //     }
-    // }
+    if (isset($_POST["update_user"])) {
+        $check = getimagesize($_FILES["profileImg"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $uploadOk = 0;
+        }
+    }
     // Check if file already exists
-    // if (file_exists($target_file)) {
-    //     $uploadOk = 0;
-    // }
+    if (file_exists($target_file)) {
+        $uploadOk = 0;
+    }
     // Check file size
-    // if ($_FILES["profileImg"]["size"] > 2000000) {
-    //     $uploadOk = 0;
-    // }
+    if ($_FILES["profileImg"]["size"] > 2000000) {
+        $uploadOk = 0;
+    }
     // Allow certain file formats
-    // if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-    //     $uploadOk = 0;
-    // }
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+        $uploadOk = 0;
+    }
     // Check if $uploadOk is set to 0 by an error
-    // if ($uploadOk == 0) {
-    //     $alert_error = "Sorry, your file was not uploaded.";
-    //     // if everything is ok, try to upload file
-    // } else {
-    move_uploaded_file($_FILES["profileImg"]["tmp_name"], $target_file);
-    // if ($uploadImage) {
-    //     $alert_success = "The file " . basename($_FILES["profileImg"]["name"]) . " has been uploaded.";
-    // } else {
-    //     $alert_error = "Sorry, there was an error uploading your file.";
-    // }
-    // }
+    if ($uploadOk == 0) {
+        $alert_error = "Sorry, your file was not uploaded.";
+        // if everything is ok, try to upload file
+    } else {
+        if (move_uploaded_file($_FILES["profileImg"]["tmp_name"], $target_dir . $target_file)) {
+            $alert_success = "The file " . basename($_FILES["profileImg"]["name"]) . " has been uploaded.";
+        } else {
+            $alert_error = "Sorry, there was an error uploading your file.";
+        }
+    }
 
 
-    //     $up_first_name = test_input($_POST['first_name']);
-    //     $up_last_name = test_input($_POST['last_name']);
-    //     $up_username = test_input($_POST['username']);
-    //     $up_email = test_input($_POST['email']);
-    //     $up_about = test_input($_POST['about']);
-    //     // $password = test_input($_POST['password']);
-    //     // $confirmPassword = test_input($_POST['confirmPassword']);
-    //     // $alert_info = $firstname . $lastname . $username . $email . $password . $confirmPassword;
+    $up_first_name = test_input($_POST['first_name']);
+    $up_last_name = test_input($_POST['last_name']);
+    $up_username = test_input($_POST['username']);
+    $up_email = test_input($_POST['email']);
+    $up_about = test_input($_POST['about']);
+    // $password = test_input($_POST['password']);
+    // $confirmPassword = test_input($_POST['confirmPassword']);
+    // $alert_info = $firstname . $lastname . $username . $email . $password . $confirmPassword;
 
-    //     $user_id = $_SESSION['user_id'];
-    //     if (empty($up_first_name) || empty($up_last_name) || empty($up_username) || empty($up_email)) {
-    //         $alert_error = "Please fill all the required fields.";
-    //     } else {
-    //         $existUser = false;
-    //         $queryExistUser = "SELECT `users`.`username`, `users`.`email` FROM `users` WHERE `username` IN ('gulzaib') AND `email` IN ('zaibg0375@gmail.com') AND `id` NOT IN ('$user_id');";
-    //         $resultExistUser = mysqli_query($conn, $queryExistUser);
-    //         $rowExistUser = mysqli_fetch_array($resultExistUser);
-    //         if ($rowExistUser > 1) {
-    //             $existUser = true;
-    //         }
-    //         if ($existUser) {
-    //             if ($up_username == $rowExistUser['username']) {
-    //                 $alert_error = "Username already exists. Try with different one.";
-    //             }
-    //             if ($up_email == $rowExistUser['email']) {
-    //                 $alert_error = "Email already registered. You can <a href='login.php'>Login Here</a>.";
-    //             }
-    //         } else {
-    //             // if ($password != $confirmPassword) {
-    //             //     $alert_error = "Passwords do not match.";
-    //             // } else {
-    //             // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    //             // $queryUpdate = "INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES (NULL, '$username', '$firstname', '$lastname', '$email', '$hashed_password');";
-    //             $queryUpdate = "UPDATE `users` SET `username` = '$up_username', `first_name` = '$up_first_name', `last_name` = '$up_last_name', `email` = '$up_email', `about` = '$up_about', `profile_pic` = '$target_file' WHERE `users`.`id` = '$user_id';";
-    //             $resultUpdate = mysqli_query($conn, $queryUpdate);
-    //             // $alert_info = $firstname . $lastname . $username . $email . $password . $confirmPassword . $hashed_password;
-    //             if (!$resultUpdate) {
-    //                 die($alert_error = "Query Failed due to " . mysqli_error($conn));
-    //             } else {
-    //                 // header("Location: login.php");
-    //                 $alert_success = "Great " . $up_first_name . " " . $up_last_name . " Your account has been updated successfully!";
-    //             }
-    //             // }
-    //         }
-    //     }
+    $user_id = $_SESSION['user_id'];
+    if (empty($up_first_name) || empty($up_last_name) || empty($up_username) || empty($up_email)) {
+        $alert_error = "Please fill all the required fields.";
+    } else {
+        $existUser = false;
+        $queryExistUser = "SELECT `users`.`username`, `users`.`email` FROM `users` WHERE `username` IN ('gulzaib') AND `email` IN ('zaibg0375@gmail.com') AND `id` NOT IN ('$user_id');";
+        $resultExistUser = mysqli_query($conn, $queryExistUser);
+        $rowExistUser = mysqli_fetch_array($resultExistUser);
+        if ($rowExistUser > 1) {
+            $existUser = true;
+        }
+        if ($existUser) {
+            if ($up_username == $rowExistUser['username']) {
+                $alert_error = "Username already exists. Try with different one.";
+            }
+            if ($up_email == $rowExistUser['email']) {
+                $alert_error = "Email already registered. You can <a href='login.php'>Login Here</a>.";
+            }
+        } else {
+            // if ($password != $confirmPassword) {
+            //     $alert_error = "Passwords do not match.";
+            // } else {
+            // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            // $queryUpdate = "INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES (NULL, '$username', '$firstname', '$lastname', '$email', '$hashed_password');";
+            $queryUpdate = "UPDATE `users` SET `username` = '$up_username', `first_name` = '$up_first_name', `last_name` = '$up_last_name', `email` = '$up_email', `about` = '$up_about', `profile_pic` = '$target_file' WHERE `users`.`id` = '$user_id';";
+            $resultUpdate = mysqli_query($conn, $queryUpdate);
+            // $alert_info = $firstname . $lastname . $username . $email . $password . $confirmPassword . $hashed_password;
+            if (!$resultUpdate) {
+                die($alert_error = "Query Failed due to " . mysqli_error($conn));
+            } else {
+                // header("Location: login.php");
+                $alert_success = "Great " . $up_first_name . " " . $up_last_name . " Your account has been updated successfully!";
+            }
+            // }
+        }
+    }
 }
 
 
@@ -239,10 +243,10 @@ if (!isset($_SESSION['user_id'])) {
                                     <div class="col-12">
                                         <div class="mb-4" for="profileImg">
                                             <label for="profileImg__input" id="profileImg__label">
-                                                <img class="w-100 h-100" id="profileImg__img" src="dist/img/user/<?php echo $profile_pic; ?>" alt="Avatar">
+                                                <img class="w-100 h-100" id="profileImg__img" src="../uploads/images/users/<?php echo $profile_pic; ?>" alt="Avatar">
                                                 <div id="profileImg__overlay">Select Image</div>
                                             </label>
-                                            <input class="d-block" type="file" accept="image/*" name="profileImg" id="profileImg__input" oninput="profileImg__img.src=window.URL.createObjectURL(this.files[0])">
+                                            <input class="d-none" type="file" accept="image/*" name="profileImg" id="profileImg__input" oninput="profileImg__img.src=window.URL.createObjectURL(this.files[0])">
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">

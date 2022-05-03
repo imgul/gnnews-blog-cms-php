@@ -97,7 +97,7 @@ $rowFetchUser = mysqli_fetch_assoc($resultFetchUser);
                 </div>
             </li>
             <!-- User Profile -->
-            <?php echo '<li class="nav-item dropdown ms-auto"><a class="nav-link pe-0" id="userInfo" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar p-1" src="dist/img/user/' . $rowFetchUser['profile_pic'] . '" alt="' . $rowFetchUser['first_name'] . ' ' . $rowFetchUser['last_name'] . '"></a>
+            <?php echo '<li class="nav-item dropdown ms-auto"><a class="nav-link pe-0" id="userInfo" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar p-1" src="../uploads/images/users/' . $rowFetchUser['profile_pic'] . '" alt="' . $rowFetchUser['first_name'] . ' ' . $rowFetchUser['last_name'] . '"></a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated" aria-labelledby="userInfo">
                     <div class="dropdown-header text-gray-700">
                         <h6 class="text-uppercase font-weight-bold">' . $rowFetchUser['first_name'] . ' ' . $rowFetchUser['last_name'] . '</h6><small class="text-capitalize">' . $rowFetchUser['role'] . '</small>
