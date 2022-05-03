@@ -5,6 +5,28 @@ session_start();
 include '../includes/config.php';
 
 
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('location: login.php');
+} else {
+    $user_id = $_SESSION['user_id'];
+    // Get user details
+    $sql = "SELECT * FROM `users` WHERE `id` = '$user_id'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $username = $row['username'];
+    $email = $row['email'];
+    $first_name = $row['first_name'];
+    $last_name = $row['last_name'];
+    $profile_pic = $row['profile_pic'];
+    $role = $row['role'];
+    $about = $row['about'];
+    $status = $row['status'];
+    $created_at = $row['created_at'];
+    $updated_at = $row['updated_at'];
+}
+
+
 // Upload Image to Server and Database
 // if (isset($_POST['update_user'])) {
 
@@ -78,41 +100,45 @@ if ((isset($_POST['update_user'])) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
     $time = date('His');
     $date_time = $date . "-" . $time;
 
-    $target_dir = "../uploads/images/users/";
-    $target_file = "IMG-" . $date_time . "-" . basename($_FILES["profileImg"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    // Check if image file is a actual image or fake image
-    if (isset($_POST["update_user"])) {
-        $check = getimagesize($_FILES["profileImg"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
+    if (!empty($_FILES['profileImg']['name'])) {
+        $target_dir = "../uploads/images/users/";
+        $target_file = "IMG-" . $date_time . "-" . basename($_FILES["profileImg"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+        if (isset($_POST["update_user"])) {
+            $check = getimagesize($_FILES["profileImg"]["tmp_name"]);
+            if ($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $uploadOk = 0;
+            }
+        }
+        // Check if file already exists
+        if (file_exists($target_file)) {
             $uploadOk = 0;
         }
-    }
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        $uploadOk = 0;
-    }
-    // Check file size
-    if ($_FILES["profileImg"]["size"] > 2000000) {
-        $uploadOk = 0;
-    }
-    // Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-        $uploadOk = 0;
-    }
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        $alert_error = "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["profileImg"]["tmp_name"], $target_dir . $target_file)) {
-            $alert_success = "The file " . basename($_FILES["profileImg"]["name"]) . " has been uploaded.";
-        } else {
-            $alert_error = "Sorry, there was an error uploading your file.";
+        // Check file size
+        if ($_FILES["profileImg"]["size"] > 2000000) {
+            $uploadOk = 0;
         }
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $uploadOk = 0;
+        }
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            $alert_error = "Sorry, your file was not uploaded.";
+            // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["profileImg"]["tmp_name"], $target_dir . $target_file)) {
+                $alert_success = "The file " . basename($_FILES["profileImg"]["name"]) . " has been uploaded.";
+            } else {
+                $alert_error = "Sorry, there was an error uploading your file.";
+            }
+        }
+    } else {
+        $target_file = $row['profile_pic'];
     }
 
 
@@ -150,6 +176,8 @@ if ((isset($_POST['update_user'])) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
             // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             // $queryUpdate = "INSERT INTO `users` (`id`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES (NULL, '$username', '$firstname', '$lastname', '$email', '$hashed_password');";
             $queryUpdate = "UPDATE `users` SET `username` = '$up_username', `first_name` = '$up_first_name', `last_name` = '$up_last_name', `email` = '$up_email', `about` = '$up_about', `profile_pic` = '$target_file' WHERE `users`.`id` = '$user_id';";
+            echo "<meta http-equiv='refresh' content='0'>";
+            // header("Refresh: 0");
             $resultUpdate = mysqli_query($conn, $queryUpdate);
             // $alert_info = $firstname . $lastname . $username . $email . $password . $confirmPassword . $hashed_password;
             if (!$resultUpdate) {
@@ -167,26 +195,7 @@ if ((isset($_POST['update_user'])) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 include 'includes/header.php';
 include 'includes/navbar.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('location: login.php');
-} else {
-    $user_id = $_SESSION['user_id'];
-    // Get user details
-    $sql = "SELECT * FROM `users` WHERE `id` = '$user_id'";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $username = $row['username'];
-    $email = $row['email'];
-    $first_name = $row['first_name'];
-    $last_name = $row['last_name'];
-    $profile_pic = $row['profile_pic'];
-    $role = $row['role'];
-    $about = $row['about'];
-    $status = $row['status'];
-    $created_at = $row['created_at'];
-    $updated_at = $row['updated_at'];
-}
+
 ?>
 
 <style>
