@@ -3,6 +3,14 @@
 <?php
 session_start();
 include '../includes/config.php';
+include 'includes/user_privileges.php';
+
+// Allowed roles
+if ($user_role != 'administrator' && $user_role != 'editor' && $user_role != 'author' && $user_role != 'contributor' && $user_role != 'subscriber') {
+    // User is not allowed to access this page
+    header("Location: ../index.php");
+    exit();
+}
 
 
 // Check if user is logged in
@@ -328,18 +336,7 @@ include 'includes/navbar.php';
                 </div>
             </section>
         </div>
-        <footer class="footer bg-white shadow align-self-end py-3 px-xl-5 w-100">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start fw-bold">
-                        <p class="mb-2 mb-md-0 fw-bold">Your company &copy; <?php echo date('Y'); ?></p>
-                    </div>
-                    <div class="col-md-6 text-center text-md-end text-gray-400">
-                        <p class="mb-0">Version 1.0.0</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <?php include 'includes/footer_info.php'; ?>
     </div>
 </div>
 
